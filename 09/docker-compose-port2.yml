@@ -4,10 +4,10 @@ services:
     image: jalvcl/odoo_base:09
     restart: always
     depends_on:
-      - db2
+      - db72
     command: --xmlrpc-port 8072
     environment:
-      - HOST=db2
+      - HOST=db72
       - USER=odoo
       - PASSWORD=odoo
       - PORT=5472
@@ -18,9 +18,9 @@ services:
       - './odoo/addons/test-addons:/mnt/test-addons'
       - './odoo/odoo-web-data:/var/lib/odoo'
       - './_config:/etc/odoo'
-  db2:
+  db72:
     image: postgres:10
-    container_name: db2
+    container_name: db72
     restart: always
     command: -p 5472
     environment:
@@ -28,7 +28,7 @@ services:
       - POSTGRES_USER=odoo
       - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
-      - './odoo/odoo-db2-data:/var/lib/postgresql/data'
+      - './odoo/odoo-db72-data:/var/lib/postgresql/data'
       - './_var/log/postgresql:/var/log/postgresql'
     ports:
       - '5472:5472'

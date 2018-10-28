@@ -1,1 +1,0 @@
-# docker-compose.yml for odoo working in por 8072 and Postgresql in port 5472
