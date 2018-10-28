@@ -1,33 +1,35 @@
 version: '2'
 services:
-  odoo:
+  odoo74:
     image: jalvcl/odoo_base:11
+    container_name: odoo74
     restart: always
     depends_on:
-      - db
+      - db74
+    command: --xmlrpc-port 8074
     environment:
-      - HOST=db
+      - HOST=db74
       - USER=odoo
       - PASSWORD=odoo
-      - PORT=5432
+      - PORT=5474
     ports:
-      - "8069:8069"
+      - "8074:8074"
     volumes:
       - './odoo/addons/extra-addons:/mnt/extra-addons'
       - './odoo/addons/test-addons:/mnt/test-addons'
       - './odoo/odoo-web-data:/var/lib/odoo'
       - './_config:/etc/odoo'
-  db:
+  db74:
     image: postgres:10
-    container_name: db
+    container_name: db74
     restart: always
-    command: -p 5432
+    command: -p 5474
     environment:
       - POSTGRES_PASSWORD=odoo
       - POSTGRES_USER=odoo
       - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
-      - './odoo/odoo-db-data:/var/lib/postgresql/data'
+      - './odoo/odoo-db74-data:/var/lib/postgresql/data'
       - './_var/log/postgresql:/var/log/postgresql'
     ports:
-      - '5432:5432'
+      - '5474:5474'
