@@ -1,10 +1,11 @@
 version: '2'
 services:
-  web:
+  odoo73:
     image: jalvcl/odoo_base:10
+    container_name: odoo73
     restart: always
     depends_on:
-      - db3
+      - db73
     command: --xmlrpc-port 8073
     environment:
       - HOST=db3
@@ -18,9 +19,9 @@ services:
       - './odoo/addons/test-addons:/mnt/test-addons'
       - './odoo/odoo-web-data:/var/lib/odoo'
       - './_config:/etc/odoo'
-  db3:
+  db73:
     image: postgres:10
-    container_name: db3
+    container_name: db73
     restart: always
     command: -p 5473
     environment:

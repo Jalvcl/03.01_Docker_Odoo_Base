@@ -1,6 +1,6 @@
 version: '2'
 services:
-  web:
+  odoo:
     image: jalvcl/odoo_base:10
     restart: always
     depends_on:
