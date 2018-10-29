@@ -1,0 +1,36 @@
+version: '2'
+services:
+  odoo75:
+    image: jalvcl/odoo_base:12
+    container_name: odoo75
+    restart: always
+    depends_on:
+      - db75
+    command: --xmlrpc-port 8075
+    environment:
+      - HOST=db75
+      - USER=odoo
+      - PASSWORD=odoo
+      - PORT=5475
+    ports:
+      - "8075:8075"
+    volumes:
+      - './odoo/addons/extra-addons:/mnt/extra-addons'
+      - './odoo/addons/test-addons:/mnt/test-addons'
+      - './odoo/odoo-web-data:/var/lib/odoo'
+      - './_config:/etc/odoo'
+  db75:
+    image: postgres:10
+    container_name: db75
+    restart: always
+    command: -p 5475
+    environment:
+      - POSTGRES_PASSWORD=odoo
+      - POSTGRES_USER=odoo
+      - POSTGRES_DB=postgres
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - './odoo/odoo-db75-data:/var/lib/postgresql/data'
+      - './_var/log/postgresql:/var/log/postgresql'
+    ports:
+      - '5475:5475'
