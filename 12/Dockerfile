@@ -2,7 +2,7 @@ FROM odoo:12
 LABEL maintainer="jalv jlvzenzey@yahoo.com"
 LABEL version="12_base"
 LABEL repository="https://github.com/Jalvcl/03.01_Docker_Odoo_Base"
-LABEL description="Clean Odoo 12 for further development, with minor modificatons"
+LABEL description="Clean Odoo 12 for further development, add subfolder test addons"
 
 USER root
 # Mount /var/lib/odoo to allow restoring filestore and /mnt/extra-addons for users addons
