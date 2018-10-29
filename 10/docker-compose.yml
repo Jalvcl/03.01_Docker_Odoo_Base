@@ -3,6 +3,7 @@ services:
   odoo:
     image: jalvcl/odoo_base:10
     restart: always
+    container_name: odoo
     depends_on:
       - db
     environment:
@@ -25,6 +26,7 @@ services:
     environment:
       - POSTGRES_PASSWORD=odoo
       - POSTGRES_USER=odoo
+      - POSTGRES_DB=postgres
       - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
       - './odoo/odoo-db-data:/var/lib/postgresql/data'
