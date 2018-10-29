@@ -16,6 +16,9 @@ EXPOSE 8069 8071
 # Set the default config file
 ENV ODOO_RC /etc/odoo/odoo.conf
 
+#from error message in odoo11 first run "odoo.addons.sms.wizard.send_sms: The `phonenumbers` Python module is not available. Phone number validation will be skipped. Try `pip3 install phonenumbers` to install it."
+RUN pip3 install phonenumbers
+
 # Set default user when running the container
 USER odoo
 
