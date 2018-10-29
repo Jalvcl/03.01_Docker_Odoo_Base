@@ -1,0 +1,36 @@
+version: '2'
+services:
+  odoo73:
+    image: jalvcl/odoo_base:10
+    container_name: odoo73
+    restart: always
+    depends_on:
+      - db73
+    command: --xmlrpc-port 8073
+    environment:
+      - HOST=db73
+      - USER=odoo
+      - PASSWORD=odoo
+      - PORT=5473
+    ports:
+      - "8073:8073"
+    volumes:
+      - './odoo/addons/extra-addons:/mnt/extra-addons'
+      - './odoo/addons/test-addons:/mnt/test-addons'
+      - './odoo/odoo-web-data:/var/lib/odoo'
+      - './_config:/etc/odoo'
+  db73:
+    image: postgres:10
+    container_name: db73
+    restart: always
+    command: -p 5473
+    environment:
+      - POSTGRES_PASSWORD=odoo
+      - POSTGRES_USER=odoo
+      - POSTGRES_DB=postgres
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    volumes:
+      - './odoo/odoo-db3-data:/var/lib/postgresql/data'
+      - './_var/log/postgresql:/var/log/postgresql'
+    ports:
+      - '5473:5473'
