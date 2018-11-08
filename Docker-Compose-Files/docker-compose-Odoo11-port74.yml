@@ -1,3 +1,6 @@
+#Depuration
+# remove TTY create error COMPOSE_HTTP_TIMEOUT
+
 version: '2'
 services:
   odoo74:
@@ -7,6 +10,7 @@ services:
     depends_on:
       - db74
     command: --xmlrpc-port 8074
+    command: --log-level debug --log-request --log-response
     environment:
       - HOST=db74
       - USER=odoo
@@ -15,10 +19,9 @@ services:
     ports:
       - "8074:8074"
     volumes:
-      - './odoo/addons/extra-addons:/mnt/extra-addons'
-      - './odoo/addons/test-addons:/mnt/test-addons'
-      - './odoo/odoo-web-data:/var/lib/odoo'
-      - './_config:/etc/odoo'
+      - odoo-web-data:/var/lib/odoo
+      - ./_config:/etc/odoo
+      - ./odoo/extra-addons:/mnt/extra-addons
   db74:
     image: postgres:10
     container_name: db74
@@ -30,7 +33,11 @@ services:
       - POSTGRES_DB=postgres
       - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
-      - './odoo/odoo-db74-data:/var/lib/postgresql/data'
-      - './_var/log/postgresql:/var/log/postgresql'
+      - odoo-db-data:/var/lib/postgresql/data/pgdata
     ports:
       - '5474:5474'
+volumes:
+  odoo-web-data:
+    driver: local
+  odoo-db-data:
+    driver: local

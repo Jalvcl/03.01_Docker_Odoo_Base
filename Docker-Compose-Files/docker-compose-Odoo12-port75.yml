@@ -1,8 +1,8 @@
 version: '2'
 services:
-  odoo75:
+  web75:
     image: jalvcl/odoo_base:12
-    container_name: odoo75
+    container_name: web75
     restart: always
     depends_on:
       - db75
@@ -14,11 +14,11 @@ services:
       - PORT=5475
     ports:
       - "8075:8075"
-    volumes:
-      - './odoo/addons/extra-addons:/mnt/extra-addons'
-      - './odoo/addons/test-addons:/mnt/test-addons'
-      - './odoo/odoo-web-data:/var/lib/odoo'
-      - './_config:/etc/odoo'
+    # volumes:
+    #   - './odoo/addons/extra-addons:/mnt/extra-addons'
+    #   - './odoo/addons/test-addons:/mnt/test-addons'
+    #   - './odoo/odoo-web-data:/var/lib/odoo'
+    #   - './_config:/etc/odoo'
   db75:
     image: postgres:10
     container_name: db75
@@ -28,9 +28,9 @@ services:
       - POSTGRES_PASSWORD=odoo
       - POSTGRES_USER=odoo
       - POSTGRES_DB=postgres
-      - PGDATA=/var/lib/postgresql/data/pgdata
-    volumes:
-      - './odoo/odoo-db75-data:/var/lib/postgresql/data'
-      - './_var/log/postgresql:/var/log/postgresql'
+      # - PGDATA=/var/lib/postgresql/data/pgdata
+    # volumes:
+    #   - './odoo/odoo-db75-data:/var/lib/postgresql/data'
+    #   - './_var/log/postgresql:/var/log/postgresql'
     ports:
       - '5475:5475'
