@@ -47,6 +47,7 @@ RUN set -x; \
 # Divide the Install to detect error in dockerbuild
 RUN set -x; \
         pip3 install -r /odoo/base_requirements.txt --ignore-installed \
+        && python3 -m pip install --force-reinstall pip setuptools \
         && pip3 install -r /odoo/extra_requirements.txt --ignore-installed
 
 RUN set -x; \ 
