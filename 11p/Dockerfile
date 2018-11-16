@@ -8,8 +8,7 @@ LABEL based_on="Camptocamp Dockerfile"
 # create the working directory and a place to set the logs (if wanted)
 RUN mkdir -p /odoo /var/log/odoo
 
-COPY ./base_requirements.txt /odoo
-COPY ./extra_requirements.txt /odoo
+COPY ./base_and_extra_requirements.txt /odoo
 COPY ./install /install
 
 # Generate locale C.UTF-8 for postgres and general locale data
@@ -46,9 +45,7 @@ RUN set -x; \
 
 # Divide the Install to detect error in dockerbuild
 RUN set -x; \
-        pip3 install -r /odoo/base_requirements.txt --ignore-installed \
-        && python3 -m pip install --force-reinstall pip setuptools \
-        && pip3 install -r /odoo/extra_requirements.txt --ignore-installed
+        pip3 install -r /odoo/base_and_extra_requirements.txt --ignore-installed \
 
 RUN set -x; \ 
         /install/purge_dev_package_and_cache.sh
