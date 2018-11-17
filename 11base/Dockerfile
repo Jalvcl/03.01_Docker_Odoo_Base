@@ -26,6 +26,7 @@ ENV BUILD_PACKAGE \
     zlib1g-dev \
     git
 
+COPY ./base_and_extra_requirements.txt /odoo
 COPY ./install /install
 
 # Install some deps, lessc and less-plugin-clean-css, and wkhtmltopdf
