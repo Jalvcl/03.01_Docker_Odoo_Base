@@ -46,13 +46,13 @@ RUN set -x; \
 # Divide the Install to detect error in dockerbuild
 RUN set -x; \
         pip3 install -r /odoo/base_and_extra_requirements.txt --ignore-installed \
-
-RUN set -x; \ 
         /install/purge_dev_package_and_cache.sh
 
 # grab gosu for easy step-down from root and dockerize to generate template and
 # wait on postgres
-RUN /install/gosu.sh && /install/dockerize.sh
+#suspend instalation bug https://github.com/tianon/gosu/issues/35 
+
+#RUN /install/gosu.sh && /install/dockerize.sh
 
 # Install Odoo
 ENV ODOO_VERSION 11.0
@@ -91,7 +91,7 @@ ENV ODOO_VERSION=11.0 \
     ODOO_BASE_URL=http://localhost:8069 \
     ODOO_REPORT_URL=http://localhost:8069 \
     DEMO=False \
-    ADDONS_PATH=/odoo/local-src,/odoo/src/addons \
+    ADDONS_PATH=/odoo/extra-addons,/odoo/test-addons \
     OPENERP_SERVER=/etc/odoo.cfg
 
 # Set default user when running the container
