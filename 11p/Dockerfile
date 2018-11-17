@@ -1,9 +1,10 @@
 FROM debian:stretch
-LABEL maintainer="jalv jlvzenzey@yahoo.com"
-LABEL version="11p.01"
-LABEL repository="https://github.com/Jalvcl/03.01_Docker_Odoo_Base"
-LABEL description="Odoo 11 for further development, with minor modificatons"
-LABEL based_on="Camptocamp Dockerfile"
+LABEL io.github.jalvcl.maintainer="jalv jlvzenzey@yahoo.com"
+LABEL io.github.jalvcl.version="11p.01"
+LABEL io.github.jalvcl.repository="https://github.com/Jalvcl/03.01_Docker_Odoo_Base"
+LABEL io.github.jalvcl.description="Odoo 11 for further development, with minor modificatons"
+LABEL io.github.jalvcl.based_on="Camptocamp Dockerfile"
+LABEL io.github.jalvcl.based_on_url="https://github.com/camptocamp/docker-odoo-project"
 
 # create the working directory and a place to set the logs (if wanted)
 RUN mkdir -p /odoo /var/log/odoo
