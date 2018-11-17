@@ -2,6 +2,8 @@ version: '2'
 services:
   odoo:
     image: jalvcl/odoo_base:11
+    container_name: odoo
+
     restart: always
     depends_on:
       - db
@@ -32,3 +34,8 @@ services:
       - './_var/log/postgresql:/var/log/postgresql'
     ports:
       - '5432:5432'
+volumes:
+  odoo-web-data:
+    # driver: local
+  odoo-db-data:
+    # driver: local
