@@ -3,6 +3,7 @@ services:
   odoo:
     image: jalvcl/odoo_base:11
     container_name: odoo
+
     restart: always
     depends_on:
       - db
@@ -14,9 +15,10 @@ services:
     ports:
       - "8069:8069"
     volumes:
-      - odoo-web-data:/var/lib/odoo
-      - ./_config:/etc/odoo
-      - ./odoo/extra-addons:/mnt/extra-addons
+      - './odoo/addons/extra-addons:/mnt/extra-addons'
+      - './odoo/addons/test-addons:/mnt/test-addons'
+      - './odoo/odoo-web-data:/var/lib/odoo'
+      - './_config:/etc/odoo'
   db:
     image: postgres:10
     container_name: db
@@ -28,9 +30,10 @@ services:
       - POSTGRES_DB=postgres
       - PGDATA=/var/lib/postgresql/data/pgdata
     volumes:
-      - 'odoo-db-data:/var/lib/postgresql/data'
+      - './odoo/odoo-db-data:/var/lib/postgresql/data'
+      - './_var/log/postgresql:/var/log/postgresql'
     ports:
-      - '5432:5432'  
+      - '5432:5432'
 volumes:
   odoo-web-data:
     # driver: local
