@@ -12,8 +12,8 @@ COPY ./base_and_extra_requirements.txt /odoo
 COPY ./install /install
 
 # Generate locale C.UTF-8 for postgres and general locale data
-ENV LANG C.UTF-8 \
-    LC_ALL=C.UTF-8
+ENV LANG C.UTF-8
+#   LC_ALL=C.UTF-8
 
 # build and dev packages
 ENV BUILD_PACKAGE \
