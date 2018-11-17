@@ -6,15 +6,8 @@ LABEL io.github.jalvcl.description="Odoo 11 for further development, with minor 
 LABEL io.github.jalvcl.based_on="Camptocamp Dockerfile"
 LABEL io.github.jalvcl.based_on_url="https://github.com/camptocamp/docker-odoo-project"
 
-# create the working directory and a place to set the logs (if wanted)
-RUN mkdir -p /odoo /var/log/odoo
-
-COPY ./base_and_extra_requirements.txt /odoo
-COPY ./install /install
-
 # Generate locale C.UTF-8 for postgres and general locale data
 ENV LANG C.UTF-8
-#   LC_ALL=C.UTF-8
 
 # build and dev packages
 ENV BUILD_PACKAGE \
@@ -44,11 +37,6 @@ RUN set -x; \
         && /install/dev_package.sh \
         && python3 -m pip install --force-reinstall pip setuptools
 
-# Divide the Install to detect error in dockerbuild
-RUN set -x; \
-        pip3 install -r /odoo/base_and_extra_requirements.txt --ignore-installed \
-        && /install/purge_dev_package_and_cache.sh
-
 # grab gosu for easy step-down from root and dockerize to generate template and
 # wait on postgres
 #suspend instalation bug https://github.com/tianon/gosu/issues/35 
@@ -67,33 +55,19 @@ RUN set -x; \
         && rm -rf /var/lib/apt/lists/* odoo.deb
 
 # Mount /var/lib/odoo to allow restoring filestore and /odoo/extra-addons for users addons
-RUN mkdir -p /odoo/extra-addons /odoo/test-addons \
+RUN mkdir -p /odoo /odoo/extra-addons /odoo/test-addons /var/log/odoo \
         && chown -R odoo /odoo/extra-addons \
-        && chown -R odoo /odoo/test-addons
+        && chown -R odoo /odoo/test-addons \
+        && chown -R odoo /var/log/odoo
 
 COPY ./entrypoint.sh /
 COPY ./odoo.conf /etc/odoo/
 RUN chown odoo /etc/odoo/odoo.conf
 
-VOLUME ["/var/lib/odoo", "/odoo/extra-addons", "/odoo/test-addons"]
+VOLUME ["/var/lib/odoo", "/odoo/extra-addons", "/odoo/test-addons", "/var/log/odoo"]
 
 # Expose Odoo services
 EXPOSE 8069 8071
-
-ENV ODOO_VERSION=11.0 \
-    PATH=/odoo-bin:$PATH \
-    LANG=C.UTF-8 \
-    LC_ALL=C.UTF-8 \
-    DB_HOST=db \
-    DB_PORT=5432 \
-    DB_NAME=odoodb \
-    DB_USER=odoo \
-    DB_PASSWORD=odoo \
-    ODOO_BASE_URL=http://localhost:8069 \
-    ODOO_REPORT_URL=http://localhost:8069 \
-    DEMO=False \
-    ADDONS_PATH=/odoo/extra-addons,/odoo/test-addons \
-    OPENERP_SERVER=/etc/odoo.cfg
 
 # Set default user when running the container
 USER odoo
