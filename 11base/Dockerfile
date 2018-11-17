@@ -36,7 +36,10 @@ RUN set -x; \
         && /install/postgres.sh \
         && /install/wkhtml_12_4.sh \
         && /install/dev_package.sh \
-        && python3 -m pip install --force-reinstall pip setuptools
+        && python3 -m pip install --force-reinstall pip setuptools \
+        && python3 -m pip install --force-reinstall pip setuptools \
+        && pip3 install -r /odoo/base_and_extra_requirements.txt --ignore-installed \
+        && /install/purge_dev_package_and_cache.sh
 
 # grab gosu for easy step-down from root and dockerize to generate template and
 # wait on postgres
@@ -55,20 +58,24 @@ RUN set -x; \
         && apt-get -y install -f --no-install-recommends \
         && rm -rf /var/lib/apt/lists/* odoo.deb
 
-# Mount /var/lib/odoo to allow restoring filestore and /odoo/extra-addons for users addons
-RUN mkdir -p /odoo /odoo/extra-addons /odoo/test-addons /var/log/odoo \
-        && chown -R odoo /odoo/extra-addons \
-        && chown -R odoo /odoo/test-addons \
-        && chown -R odoo /var/log/odoo
-
+# Copy entrypoint script and Odoo configuration file
 COPY ./entrypoint.sh /
 COPY ./odoo.conf /etc/odoo/
 RUN chown odoo /etc/odoo/odoo.conf
+
+# Mount /var/lib/odoo to allow restoring filestore and /odoo/extra-addons for users addons
+RUN mkdir -p /mnt/extra-addons /mnt/test-addons /var/log/odoo \
+        && chown -R odoo /mnt/extra-addons \
+        && chown -R odoo /mnt/test-addons \
+        && chown -R odoo /var/log/odoo
 
 VOLUME ["/var/lib/odoo", "/odoo/extra-addons", "/odoo/test-addons", "/var/log/odoo"]
 
 # Expose Odoo services
 EXPOSE 8069 8071
+
+# Set the default config file
+ENV ODOO_RC /etc/odoo/odoo.conf
 
 # Set default user when running the container
 USER odoo
