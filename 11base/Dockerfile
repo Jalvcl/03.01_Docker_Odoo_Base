@@ -63,10 +63,10 @@ RUN set -x; \
 # Copy entrypoint script and Odoo configuration file
 COPY ./entrypoint.sh /
 COPY ./odoo.conf /etc/odoo/
-RUN chown odoo /etc/odoo/odoo.conf
 
 # Mount /var/lib/odoo to allow restoring filestore and /odoo/extra-addons for users addons
-RUN mkdir -p /mnt/extra-addons /mnt/test-addons /var/log/odoo \
+RUN mkdir -p /mnt/extra-addons /mnt/test-addons \
+        && chown -R odoo /etc/odoo/odoo.conf \
         && chown -R odoo /mnt/extra-addons \
         && chown -R odoo /mnt/test-addons \
         && chown -R odoo /var/log/odoo
