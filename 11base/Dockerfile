@@ -6,6 +6,10 @@ LABEL io.github.jalvcl.description="Odoo 11 for further development, with minor 
 LABEL io.github.jalvcl.based_on="Camptocamp Dockerfile"
 LABEL io.github.jalvcl.based_on_url="https://github.com/camptocamp/docker-odoo-project"
 
+RUN mkdir -p /odoo /install /var/log/odoo
+COPY ./base_and_extra_requirements.txt /odoo
+COPY ./install /install
+
 # Generate locale C.UTF-8 for postgres and general locale data
 ENV LANG C.UTF-8
 
@@ -26,9 +30,6 @@ ENV BUILD_PACKAGE \
     zlib1g-dev \
     git
 
-COPY ./base_and_extra_requirements.txt /install
-COPY ./install /install
-
 # Install some deps, lessc and less-plugin-clean-css, and wkhtmltopdf
 RUN set -x; \
         sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ stretch-pgdg main" > /etc/apt/sources.list.d/pgdg.list' \
@@ -39,7 +40,7 @@ RUN set -x; \
         && /install/dev_package.sh \
         && python3 -m pip install --force-reinstall pip setuptools \
         && python3 -m pip install --force-reinstall pip setuptools \
-        && pip3 install -r /install/base_and_extra_requirements.txt --ignore-installed \
+        && pip3 install -r /odoo/base_and_extra_requirements.txt --ignore-installed \
         && /install/purge_dev_package_and_cache.sh
 
 # grab gosu for easy step-down from root and dockerize to generate template and
