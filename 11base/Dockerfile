@@ -26,7 +26,7 @@ ENV BUILD_PACKAGE \
     zlib1g-dev \
     git
 
-COPY ./base_and_extra_requirements.txt /odoo
+COPY ./base_and_extra_requirements.txt /install
 COPY ./install /install
 
 # Install some deps, lessc and less-plugin-clean-css, and wkhtmltopdf
@@ -39,7 +39,7 @@ RUN set -x; \
         && /install/dev_package.sh \
         && python3 -m pip install --force-reinstall pip setuptools \
         && python3 -m pip install --force-reinstall pip setuptools \
-        && pip3 install -r /odoo/base_and_extra_requirements.txt --ignore-installed \
+        && pip3 install -r /install/base_and_extra_requirements.txt --ignore-installed \
         && /install/purge_dev_package_and_cache.sh
 
 # grab gosu for easy step-down from root and dockerize to generate template and
