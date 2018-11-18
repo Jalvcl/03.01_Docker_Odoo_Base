@@ -26,15 +26,6 @@ ENV BUILD_PACKAGE \
     zlib1g-dev \
     git
 
-# Mount /var/lib/odoo to allow restoring filestore and /odoo/extra-addons for users addons
-RUN mkdir -p /odoo /mnt/extra-addons /mnt/test-addons /var/log/odoo \
-        && chown -R odoo /odoo \
-        && chown -R odoo /mnt/extra-addons \
-        && chown -R odoo /mnt/test-addons \
-        && chown -R odoo /var/log/odoo
-
-VOLUME ["/var/lib/odoo", "/odoo/extra-addons", "/odoo/test-addons", "/var/log/odoo"]
-
 COPY ./base_and_extra_requirements.txt /odoo
 COPY ./install /install
 
