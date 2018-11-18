@@ -20,7 +20,7 @@ services:
       - './odoo/odoo-web-data:/var/lib/odoo'
       - './_config:/etc/odoo'
   db:
-    image: postgres:10
+    image: jalvcl/odoo_base:db_postgres_10.6_alpine
     container_name: db
     restart: always
     command: -p 5432
