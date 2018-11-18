@@ -5,7 +5,7 @@ LABEL io.github.jalvcl.repository="https://github.com/Jalvcl/03.01_Docker_Odoo_B
 LABEL io.github.jalvcl.description="Postgres for production 10.6 build in alpine"
 LABEL io.github.jalvcl.based_on="postgres Dockerfile"
 
-VOLUME /var/lib/postgresql/data
+VOLUME ["/var/lib/postgresql/data"]
 
 COPY docker-entrypoint.sh /usr/local/bin/
 #RUN ln -s usr/local/bin/docker-entrypoint.sh / # backwards compat
